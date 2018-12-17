@@ -1,6 +1,7 @@
 import pygame
 import random
 from objects.Point import Point
+from objects.Point import ControlPoint
 from objects.BezierCurve import BezierCurve
 
 # Constants
@@ -54,7 +55,7 @@ def main():
                     selected_point = get_selected_point(points, x, y)
                     if selected_point == None:
                         px, py = bezier_curve.get_point_on_curve(x, y)
-                        selected_curve_point = Point(px, py)
+                        selected_curve_point = Point(int(px), int(py), color = (0, 255, 0))
             if event.type == pygame.MOUSEBUTTONUP:
                 if not selected_point == None:
                     selected_point = None
@@ -91,7 +92,7 @@ def get_random_points(n):
     for i in range(n):
         x = random.randint(0, SCREEN_WIDTH)
         y = random.randint(0, SCREEN_HEIGHT)
-        points.append(Point(x, y))
+        points.append(ControlPoint(x, y))
     return points
 
 if __name__ == '__main__':

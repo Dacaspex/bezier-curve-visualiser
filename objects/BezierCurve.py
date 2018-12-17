@@ -63,7 +63,9 @@ class BezierCurve:
             px, py = self.get_point(t)
             error = math.sqrt((px - x)**2 + (py - y)**2)
             if error < min_error:
-                found_t = 0
+                min_error = error
+                found_t = t
+
         return self.get_point(found_t)
 
     def get_binom(self, n, k):
