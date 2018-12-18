@@ -66,7 +66,9 @@ class BezierCurve:
                 min_error = error
                 found_t = t
 
-        return self.get_point(found_t)
+        return (self.get_point(found_t), found_t)
+
+
 
     def get_binom(self, n, k):
         return math.factorial(n) / (math.factorial(k) * math.factorial(n - k))

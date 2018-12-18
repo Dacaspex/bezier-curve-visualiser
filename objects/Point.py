@@ -12,7 +12,16 @@ class Point:
         self.y = y
 
     def draw(self, screen):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+
+    def as_list(self):
+        return (self.x, self.y)
+
+    @staticmethod
+    def interpolate(p1, p2, alpha):
+        x = (1 - alpha) * p1.x + alpha * p2.x
+        y = (1 - alpha) * p1.y + alpha * p2.y
+        return Point(x, y)
 
 class ControlPoint(Point):
     selected_color = (0, 255, 100)

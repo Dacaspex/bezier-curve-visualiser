@@ -1,8 +1,8 @@
 import pygame
 import random
-from objects.Point import Point
-from objects.Point import ControlPoint
+from objects.Point import Point, ControlPoint
 from objects.BezierCurve import BezierCurve
+from objects.ConstructCurve import ConstructCurve
 
 # Constants
 MOUSEBUTTONLEFT = 1
@@ -27,8 +27,9 @@ def main():
 
     points = get_random_points(nr_of_points)
     selected_point = None
-    selected_curve_point = None
+    selected_curve_point_t = None
     bezier_curve = BezierCurve(points, bezier_curve_steps)
+    construct_curve = None
 
     running = True;
 
@@ -46,6 +47,8 @@ def main():
                 if event.key == pygame.K_r:
                     points = get_random_points(nr_of_points)
                     bezier_curve = BezierCurve(points, bezier_curve_steps)
+                    construct_curve = None
+                    selected_curve_point_t = None
 
             # Mouse events
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -54,8 +57,10 @@ def main():
                     x, y = pygame.mouse.get_pos()
                     selected_point = get_selected_point(points, x, y)
                     if selected_point == None:
-                        px, py = bezier_curve.get_point_on_curve(x, y)
-                        selected_curve_point = Point(int(px), int(py), color = (0, 255, 0))
+                        ((px, py), t) = bezier_curve.get_point_on_curve(x, y)
+                        selected_curve_point_t = t
+                        construct_curve = ConstructCurve(points, t)
+
             if event.type == pygame.MOUSEBUTTONUP:
                 if not selected_point == None:
                     selected_point = None
@@ -73,8 +78,11 @@ def main():
             start = (points[i].x, points[i].y)
             end = (points[i + 1].x, points[i + 1].y)
             pygame.draw.line(screen, control_points_line_color, start, end)
-        if not selected_curve_point == None:
-            selected_curve_point.draw(screen)
+        if not selected_curve_point_t == None:
+            x, y = bezier_curve.get_point(selected_curve_point_t)
+            Point(x, y).draw(screen)
+        if not construct_curve == None:
+            construct_curve.draw(screen)
 
         bezier_curve.draw(screen)
 
