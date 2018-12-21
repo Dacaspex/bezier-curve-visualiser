@@ -8,6 +8,7 @@ class BezierCurve:
     width = 2
     normal_width = 1
     normal_step = 10
+    min_distance = 50
 
     def __init__(self, control_points, steps):
         self.control_points = control_points
@@ -62,7 +63,7 @@ class BezierCurve:
             t = step * i
             px, py = self.get_point(t)
             error = math.sqrt((px - x)**2 + (py - y)**2)
-            if error < min_error:
+            if error < min_error and error < self.min_distance:
                 min_error = error
                 found_t = t
 

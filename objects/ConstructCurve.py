@@ -1,4 +1,5 @@
 import pygame
+import math
 from objects.Point import Point
 
 class ConstructCurve:
@@ -18,6 +19,14 @@ class ConstructCurve:
             for i in range(n - 1):
                 p1 = new_points[i]
                 p2 = new_points[i + 1]
-                pygame.draw.line(screen, (255, 0, 255), p1.as_list(), p2.as_list())
+                color = self.get_color(n)
+                pygame.draw.line(screen, color, p1.as_list(), p2.as_list())
             points = new_points
             new_points = []
+
+    def get_color(self, n):
+        r = abs(math.sin(n)) * 150 + 100
+        g = abs(math.sin(n)) * 50 + 50
+        b = abs(math.sin(n)) * 50 + 100
+
+        return (r, g, b)
