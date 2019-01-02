@@ -1,5 +1,6 @@
 import pygame
 import random
+import sys
 from objects.Point import Point, ControlPoint
 from objects.BezierCurve import BezierCurve
 from objects.ConstructCurve import ConstructCurve
@@ -15,8 +16,6 @@ SCREEN_HEIGHT = 600
 dimension = (SCREEN_WIDTH, SCREEN_HEIGHT)
 background_color = (255, 255, 255)
 control_points_line_color = (150, 150, 150)
-nr_of_points = 6
-bezier_curve_steps = 200
 
 def main():
     # Init screen
@@ -24,6 +23,16 @@ def main():
 
     screen = pygame.display.set_mode(dimension)
     pygame.display.set_caption('Bezier curves')
+
+    # Set parameters
+    nr_of_points = 6
+    bezier_curve_steps = 200
+
+    # Optionally, get parameters from command line
+    if (len(sys.argv) >= 2):
+        nr_of_points = int(sys.argv[1])
+    if (len(sys.argv) >= 3):
+        bezier_curve_steps = int(sys.argv[2])
 
     points = get_random_points(nr_of_points)
     selected_point = None

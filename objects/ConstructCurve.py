@@ -1,5 +1,5 @@
 import pygame
-import math
+import random
 from objects.Point import Point
 
 class ConstructCurve:
@@ -9,6 +9,7 @@ class ConstructCurve:
 
     def draw(self, screen):
         points = self.control_points
+        colors = self.get_colors(len(points))
         new_points = []
         while len(points) > 2:
             n = len(points) - 1
@@ -19,14 +20,25 @@ class ConstructCurve:
             for i in range(n - 1):
                 p1 = new_points[i]
                 p2 = new_points[i + 1]
-                color = self.get_color(n)
-                pygame.draw.line(screen, color, p1.as_list(), p2.as_list())
+                pygame.draw.line(screen, colors[n], p1.as_list(), p2.as_list(), 2)
             points = new_points
             new_points = []
 
-    def get_color(self, n):
-        r = abs(math.sin(n)) * 150 + 100
-        g = abs(math.sin(n)) * 50 + 50
-        b = abs(math.sin(n)) * 50 + 100
+    def get_colors(self, n):
+        colors = []
+        random.seed(n)
+        r = int(random.random() * 256)
+        g = int(random.random() * 256)
+        b = int(random.random() * 256)
+        step = 256 / n
+        for i in range(n):
+            r += step
+            g += step
+            b += step
+            r = int(r) % 256
+            g = int(g) % 256
+            b = int(b) % 256
+            colors.append((r,g,b))
+        return colors
 
         return (r, g, b)
