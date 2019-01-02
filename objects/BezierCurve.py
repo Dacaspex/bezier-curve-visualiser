@@ -56,7 +56,7 @@ class BezierCurve:
         return (x * n, y * n)
 
     def get_point_on_curve(self, x, y):
-        found_t = 0
+        found_t = None
         min_error = 1000 # infinite
         step = 1 / self.steps
         for i in range(self.steps):
@@ -66,7 +66,7 @@ class BezierCurve:
             if error < min_error and error < self.min_distance:
                 min_error = error
                 found_t = t
-        return (self.get_point(found_t), found_t)
+        return None if found_t == None else (self.get_point(found_t), found_t)
 
     def get_binom(self, n, k):
         return math.factorial(n) / (math.factorial(k) * math.factorial(n - k))

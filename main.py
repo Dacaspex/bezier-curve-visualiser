@@ -66,10 +66,15 @@ def main():
                     x, y = pygame.mouse.get_pos()
                     selected_point = get_selected_point(points, x, y)
                     if selected_point == None:
-                        ((px, py), t) = bezier_curve.get_point_on_curve(x, y)
-                        selected_curve_point_t = t
-                        construct_curve = ConstructCurve(points, t)
-
+                        result = bezier_curve.get_point_on_curve(x, y)
+                        # None indicates that the user did not click close enough
+                        # to the curve, remove the construct curve
+                        if result == None:
+                            construct_curve = None
+                            selected_curve_point_t = None
+                            continue;
+                        selected_curve_point_t = result[1]
+                        construct_curve = ConstructCurve(points, result[1])
             if event.type == pygame.MOUSEBUTTONUP:
                 if not selected_point == None:
                     selected_point = None
